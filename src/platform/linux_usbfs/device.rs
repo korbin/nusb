@@ -845,6 +845,8 @@ impl LinuxEndpoint {
     }
 
     pub(crate) fn allocate(&self, len: usize) -> Result<Buffer, Errno> {
+        return Ok(Buffer::new(len));
+
         Buffer::mmap(&self.inner.interface.device.fd, len).inspect_err(|e| {
             warn!(
                 "Failed to allocate zero-copy buffer of length {len} for endpoint {}: {e}",
