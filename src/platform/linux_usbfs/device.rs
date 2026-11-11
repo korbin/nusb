@@ -845,7 +845,9 @@ impl LinuxEndpoint {
     }
 
     pub(crate) fn allocate(&self, len: usize) -> Result<Buffer, Errno> {
-        return Ok(Buffer::new(len));
+        if cfg!(feature = "no-zerocopy") {
+            return Ok(Buffer::new(len));
+        }
 
         Buffer::mmap(&self.inner.interface.device.fd, len).inspect_err(|e| {
             warn!(

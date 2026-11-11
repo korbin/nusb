@@ -72,6 +72,10 @@ smol = ["dep:blocking", "dep:futures-io"]
 # Use `tokio`'s IO threadpool for making blocking IO async
 tokio = ["dep:tokio"]
 
+# Allocate transfer buffers on the heap instead of zero-copy usbfs mappings (Linux); zero-copy
+# breaks transfers on armv7
+no-zerocopy = []
+
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(fuzzing)'] }
 
